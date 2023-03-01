@@ -10,7 +10,7 @@ This is a web application that uses the OpenAI API to generate responses to user
 
 ## Usage
 
-1. Set your OpenAI API key in the file openAiKey
+1. Create a file named openAIKey and set your OpenAI API key in the file openAiKey
 2. Start the web server: `python app.py`
 3. Open your web browser and go to http://localhost:5000
 4. Type your question into the input field and click the "Submit" button.

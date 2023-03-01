@@ -3,7 +3,7 @@ import openai
 import os
 
 # Set up OpenAI API key
-openai.api_key_path = 'openAiKey'
+openai.api_key_path = 'openAIKey'
 
 # Create Flask app
 app = Flask(__name__)
