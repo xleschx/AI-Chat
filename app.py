@@ -12,6 +12,28 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 # Keep track of chat history
 chat_history = []
 
+# Default settings
+DEFAULT_ENGINE = 'text-davinci-002'
+DEFAULT_MAX_TOKENS = 1240
+DEFAULT_TEMPERATURE = 0.5
+
+# Define settings page route
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    if request.method == 'POST':
+        # Get form values
+        engine = request.form['engine']
+        max_tokens = request.form['max_tokens']
+        temperature = request.form['temperature']
+
+        # Set global variables to new values
+        global ENGINE, MAX_TOKENS, TEMPERATURE
+        ENGINE = engine
+        MAX_TOKENS = int(max_tokens)
+        TEMPERATURE = float(temperature)
+
+    # Render settings page
+    return render_template('settings.html', engine=ENGINE, max_tokens=MAX_TOKENS, temperature=TEMPERATURE)
 
 # Define home page route
 @app.route('/', methods=['GET', 'POST'])
@@ -31,19 +53,18 @@ def home():
 
         try:
             response = openai.Completion.create(
-                engine='text-davinci-002',
+                engine=ENGINE,
                 prompt=user_input,
-                max_tokens=100,
+                max_tokens=MAX_TOKENS,
                 n=1,
                 stop=None,
-                temperature=0.5,
+                temperature=TEMPERATURE,
             )
 
             # Extract response text from OpenAI API response
             chatbot_response = response.choices[0].text.strip()
 
             # Add chatbot response to chat history
-            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             chat_history.append({'speaker': 'Chatbot', 'text': chatbot_response})
 
         except openai.ErrorObject as e:
@@ -58,7 +79,10 @@ def home():
     # Render home page
     return render_template('index.html')
 
-
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    # Initialize global variables
+    ENGINE = DEFAULT_ENGINE
+    MAX_TOKENS = DEFAULT_MAX_TOKENS
+    TEMPERATURE = DEFAULT_TEMPERATURE
 
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))

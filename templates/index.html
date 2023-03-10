@@ -8,24 +8,49 @@
 </head>
 <body>
 <h1>Chatbot</h1>
+
+<!-- Chat history -->
 <div class="chatbox">
     {% for item in chat_history %}
-    {% if item['speaker'] == 'User' %}
-    <div class="message user">
-        <p>{{ item['text'] }}</p>
-        <span class="time">{{ item['time'] }}</span>
-    </div>
-    {% else %}
-    <div class="message chatbot">
-        <p>{{ item['text'] }}</p>
-    </div>
-    {% endif %}
+        {% if item['speaker'] == 'User' %}
+            <div class="message user">
+                <p>{{ item['text'] }}</p>
+                <span class="time">{{ item['time'] }}</span>
+            </div>
+        {% else %}
+            <div class="message chatbot">
+                <p>{{ item['text'] }}</p>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
+
+<!-- User input form -->
 <form method="POST" action="/">
     <label for="message">Message:</label>
     <input type="text" id="message" name="message" required>
     <input type="submit" value="Send">
+
+    <!-- Settings form -->
+    <div class="settings">
+        <h2>Settings</h2>
+        <label for="engine">Engine:</label>
+        <select id="engine" name="engine">
+            <option value="text-davinci-002">Davinci</option>
+            <option value="text-curie-001">Curie</option>
+            <option value="text-babbage-001">Babbage</option>
+            <option value="text-ada-001">Ada</option>
+        </select>
+        <br>
+        <label for="max_tokens">Max Tokens:</label>
+        <input type="number" id="max_tokens" name="max_tokens" value="1240" required>
+        <br>
+        <label for="temperature">Temperature:</label>
+        <input type="number" id="temperature" name="temperature" step="0.1" value="0.5" required>
+        <br>
+        <input type="submit" value="Update Settings">
+    </div>
 </form>
+
 </body>
 </html>
