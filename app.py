@@ -3,12 +3,14 @@ import os
 
 import openai
 from flask import Flask, render_template, request
+from werkzeug.utils import redirect
 
 # Set up OpenAI API key
 openai.api_key_path = 'openAIKey'
 
 # Create Flask app
 app = Flask(__name__, template_folder='templates', static_folder='static')
+
 # Keep track of chat history
 chat_history = []
 
@@ -17,9 +19,17 @@ DEFAULT_ENGINE = 'text-davinci-002'
 DEFAULT_MAX_TOKENS = 1240
 DEFAULT_TEMPERATURE = 0.5
 
+# Global variables for settings
+ENGINE = DEFAULT_ENGINE
+MAX_TOKENS = DEFAULT_MAX_TOKENS
+TEMPERATURE = DEFAULT_TEMPERATURE
+
+
 # Define settings page route
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
+    global ENGINE, MAX_TOKENS, TEMPERATURE
+
     if request.method == 'POST':
         # Get form values
         engine = request.form['engine']
@@ -27,13 +37,15 @@ def settings():
         temperature = request.form['temperature']
 
         # Set global variables to new values
-        global ENGINE, MAX_TOKENS, TEMPERATURE
         ENGINE = engine
         MAX_TOKENS = int(max_tokens)
         TEMPERATURE = float(temperature)
+        return redirect("/", code=302)
 
-    # Render settings page
     return render_template('settings.html', engine=ENGINE, max_tokens=MAX_TOKENS, temperature=TEMPERATURE)
+
+
+# Define home page route
 
 # Define home page route
 @app.route('/', methods=['GET', 'POST'])
@@ -78,6 +90,8 @@ def home():
 
     # Render home page
     return render_template('index.html')
+
+# Render home page
 
 if __name__ == "__main__":
     # Initialize global variables
