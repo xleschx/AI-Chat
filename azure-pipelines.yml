@@ -9,11 +9,19 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  major: '1'
+  minor: '0'
+  patch: '0'
+  build: '$(Build.BuildId)'
+
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: echo $(major).$(minor).$(patch).$(build)
+  displayName: 'Display Version Number'
+
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
