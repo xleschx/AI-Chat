@@ -68,7 +68,7 @@ def home():
                 engine=ENGINE,
                 prompt=prompt,
                 max_tokens=MAX_TOKENS,
-                n=2,
+                n=1,
                 stop=None,
                 temperature=TEMPERATURE,
                 moderation='strict'  # Add moderation parameter
