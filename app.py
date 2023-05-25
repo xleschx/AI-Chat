@@ -24,7 +24,6 @@ ENGINE = DEFAULT_ENGINE
 MAX_TOKENS = DEFAULT_MAX_TOKENS
 TEMPERATURE = DEFAULT_TEMPERATURE
 
-
 # Define settings page route
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
@@ -46,8 +45,6 @@ def settings():
 
 
 # Define home page route
-
-# Define home page route
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -65,7 +62,11 @@ def home():
 
         try:
             response = openai.Completion.create(
-               sda
+               # Call the OpenAI API for chatbot response
+               engine=ENGINE,
+               prompt=prompt,
+               max_tokens=MAX_TOKENS,
+               temperature=TEMPERATURE
             )
 
             # Extract response text from OpenAI API response
@@ -86,8 +87,6 @@ def home():
     # Render home page
     return render_template('index.html')
 
-
-# Render home page
 
 if __name__ == "__main__":
     # Initialize global variables
