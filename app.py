@@ -96,9 +96,5 @@ def home():
 # Render home page
 
 if __name__ == "__main__":
-    # Initialize global variables
-    ENGINE = DEFAULT_ENGINE
-    MAX_TOKENS = DEFAULT_MAX_TOKENS
-    TEMPERATURE = DEFAULT_TEMPERATURE
 
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+# git merge problem
