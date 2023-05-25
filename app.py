@@ -65,13 +65,7 @@ def home():
 
         try:
             response = openai.Completion.create(
-                engine=ENGINE,
-                prompt=prompt,
-                max_tokens=MAX_TOKENS,
-                n=1,
-                stop=None,
-                temperature=TEMPERATURE,
-                moderation='strict'  # Add moderation parameter
+               sda
             )
 
             # Extract response text from OpenAI API response
