@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from werkzeug.utils import redirect
 
 # Set up OpenAI API key
-openai.api_key_path = 'openAIKey'
+openai.api_key_path = 'OpenAPIKey'
 
 # Create Flask app
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -66,11 +66,12 @@ def home():
         try:
             response = openai.Completion.create(
                 engine=ENGINE,
-                prompt=user_input,
+                prompt=prompt,
                 max_tokens=MAX_TOKENS,
                 n=1,
                 stop=None,
                 temperature=TEMPERATURE,
+                moderation='strict'  # Add moderation parameter
             )
 
             # Extract response text from OpenAI API response
@@ -79,7 +80,7 @@ def home():
             # Add chatbot response to chat history
             chat_history.append({'speaker': 'Chatbot', 'text': chatbot_response})
 
-        except openai.ErrorObject as e:
+        except Exception as e:
             # Handle API errors
             chatbot_response = f"Error: {e}"
             current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -90,6 +91,7 @@ def home():
 
     # Render home page
     return render_template('index.html')
+
 
 # Render home page
 
