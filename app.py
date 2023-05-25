@@ -66,12 +66,25 @@ def home():
         try:
             response = openai.Completion.create(
                 engine=ENGINE,
-           sa
+                prompt=prompt,
+                max_tokens=MAX_TOKENS,
+                n=1,
+                stop=None,
+                temperature=TEMPERATURE,
+                moderation='strict'  # Add moderation parameter
+            )
 
             # Extract response text from OpenAI API response
             chatbot_response = response.choices[0].text.strip()
 
-           asdatbot_response, 'time': current_time})
+            # Add chatbot response to chat history
+            chat_history.append({'speaker': 'Chatbot', 'text': chatbot_response})
+
+        except Exception as e:
+            # Handle API errors
+            chatbot_response = f"Error: {e}"
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            chat_history.append({'speaker': 'Chatbot', 'text': chatbot_response, 'time': current_time})
 
         # Render home page with chat history
         return render_template('index.html', chat_history=chat_history)
@@ -85,5 +98,7 @@ def home():
 if __name__ == "__main__":
     # Initialize global variables
     ENGINE = DEFAULT_ENGINE
-    asd
+    MAX_TOKENS = DEFAULT_MAX_TOKENS
+    TEMPERATURE = DEFAULT_TEMPERATURE
+
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
