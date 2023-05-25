@@ -65,11 +65,7 @@ def home():
 
         try:
             response = openai.Completion.create(
-                sdaeter
-                asdas
-                sad
-                ada
-                sd
+               sda
             )
 
             # Extract response text from OpenAI API response
